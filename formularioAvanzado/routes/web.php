@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MemeC;//nuevo controlador.
-use App\Http\Controllers\MailController;//controlador para el mail.
-
-
+use App\Http\Controllers\FormularioAvanzado;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,17 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/meme2', function () {
-    return view('memelandia2');
-});
-
-Route::get('/meme', [MemeC::class, 'show']);
-
-Route::get('/send/email', [MailController::class, 'mail']);
-
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/encuesta', function () {
+    return view('forum-avanzado');
+})->middleware(['auth'])->name('encuesta');
+
+Route::post('/encuesta',[FormularioAvanzado::class, 'Encuesta'])->middleware(['auth'])->name('encuesta-validacion');;
 
 require __DIR__.'/auth.php';

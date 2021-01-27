@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MemeC;//nuevo controlador.
-use App\Http\Controllers\MailController;//controlador para el mail.
-
-
+use App\Http\Controllers\ValidarEmail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,17 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/meme2', function () {
-    return view('memelandia2');
+Route::get('/formulario', function () {
+    return view('forum');
 });
 
-Route::get('/meme', [MemeC::class, 'show']);
-
-Route::get('/send/email', [MailController::class, 'mail']);
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
+Route::post('/formulario',[ValidarEmail::class, 'Email'])->name("formulario.login");
