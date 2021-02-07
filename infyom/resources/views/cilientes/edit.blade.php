@@ -11,18 +11,11 @@
         color:gold;
     }
 </style>
-
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Coches</h1>
-                </div>
-                <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('coches.create') }}">
-                        Add New
-                    </a>
+                <div class="col-sm-12">
+                    <h1>Edit Ciliente</h1>
                 </div>
             </div>
         </div>
@@ -30,23 +23,25 @@
 
     <div class="content px-3">
 
-        @include('flash::message')
-
-        <div class="clearfix"></div>
+        @include('adminlte-templates::common.errors')
 
         <div class="card">
-            <div class="card-body p-0">
-                @include('coches.table')
 
-                <div class="card-footer clearfix float-right">
-                    <div class="float-right">
-                        
-                    </div>
+            {!! Form::model($ciliente, ['route' => ['cilientes.update', $ciliente->id], 'method' => 'patch']) !!}
+
+            <div class="card-body">
+                <div class="row">
+                    @include('cilientes.fields')
                 </div>
             </div>
 
+            <div class="card-footer">
+                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                <a href="{{ route('cilientes.index') }}" class="btn btn-default">Cancel</a>
+            </div>
+
+           {!! Form::close() !!}
+
         </div>
     </div>
-
 @endsection
-

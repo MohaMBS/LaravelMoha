@@ -6,3 +6,11 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('cilientes.index') }}"
+       class="nav-link {{ Request::is('cilientes*') ? 'active' : '' }}">
+        <p>Cilientes</p>
+    </a>
+</li>
+
+

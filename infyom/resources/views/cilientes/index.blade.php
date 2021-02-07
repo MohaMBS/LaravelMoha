@@ -11,16 +11,15 @@
         color:gold;
     }
 </style>
-
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Coches</h1>
+                    <h1>Cilientes</h1>
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('coches.create') }}">
+                       href="{{ route('cilientes.create') }}">
                         Add New
                     </a>
                 </div>
@@ -36,7 +35,7 @@
 
         <div class="card">
             <div class="card-body p-0">
-                @include('coches.table')
+                @include('cilientes.table')
 
                 <div class="card-footer clearfix float-right">
                     <div class="float-right">

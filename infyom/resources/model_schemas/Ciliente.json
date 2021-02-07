@@ -1,0 +1,50 @@
+[
+    {
+        "name": "id",
+        "dbType": "integer,true",
+        "htmlType": null,
+        "validations": null,
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "nom",
+        "dbType": "string,99",
+        "htmlType": "text",
+        "validations": "required|string|max:99|string|max:99",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "cognom",
+        "dbType": "string,99",
+        "htmlType": "text",
+        "validations": "required|string|max:99|string|max:99",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "nif",
+        "dbType": "string,9",
+        "htmlType": "text",
+        "validations": "required|string|max:9|string|max:9",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    }
+]
