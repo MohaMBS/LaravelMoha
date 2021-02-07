@@ -36,10 +36,10 @@ return [
     'different' => 'El campo :attribute y :other deben ser diferentes.',
     'digits' => 'El campo :attribute debe tener :digits dígitos.',
     'digits_between' => 'El campo :attribute debe estar entre :min y :max dígitos.',
-    'dimensions' => 'El campo :attribute tiene dimensiones de imagen inválidas.',
+    'dimensions' => 'El camp :attribute te unes dimensions invalides.',
     'distinct' => 'El campo :attribute tiene un valor duplicado.',
     'email' => 'El campo :attribute debe ser un correo electrónico válido.',
-    'exists' => 'El campo seleccionado :attribute es inválido.',
+    'exists' => 'El camp :attribute es invalid.',
     'file' => 'El campo :attribute debe ser un archivo.',
     'filled' => 'El campo :attribute debe tener un valor.',
     'gt' => [
@@ -111,7 +111,7 @@ return [
     'string' => 'El campo :attribute debe ser una cadena.',
     'timezone' => 'El campo :attribute debe ser una zona horaria válida.',
     'unique' => 'El campo :attribute ya existe.',
-    'uploaded' => 'Error al subir :attribute.',
+    'uploaded' => 'Error al pujar :attribute.',
     'url' => 'El formato de :attribute es inválido.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
 
