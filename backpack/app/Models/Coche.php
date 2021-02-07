@@ -19,7 +19,7 @@ class Coche extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $fillable = ['marca','modelo','fecha'];
+    protected $fillable = ['marca','modelo','fecha','id_ciliente'];
     // protected $hidden = [];
     // protected $dates = [];
 
