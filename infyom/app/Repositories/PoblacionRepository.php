@@ -2,24 +2,24 @@
 
 namespace App\Repositories;
 
-use App\Models\Ciliente;
+use App\Models\Poblacion;
 use App\Repositories\BaseRepository;
 
 /**
- * Class CilienteRepository
+ * Class PoblacionRepository
  * @package App\Repositories
- * @version February 8, 2021, 5:55 pm UTC
+ * @version February 8, 2021, 6:03 pm UTC
 */
 
-class CilienteRepository extends BaseRepository
+class PoblacionRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'nom',
-        'cognom',
-        'nif'
+        'ciudad',
+        'poblacion',
+        'cp'
     ];
 
     /**
@@ -37,6 +37,6 @@ class CilienteRepository extends BaseRepository
      **/
     public function model()
     {
-        return Ciliente::class;
+        return Poblacion::class;
     }
 }

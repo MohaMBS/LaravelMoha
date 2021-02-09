@@ -13,9 +13,9 @@
     },
     {
         "name": "nom",
-        "dbType": "string,99",
+        "dbType": "string,150",
         "htmlType": "text",
-        "validations": "required|string|max:99|string|max:99",
+        "validations": "required|string|max:150|string|max:150",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -25,9 +25,9 @@
     },
     {
         "name": "cognom",
-        "dbType": "string,99",
+        "dbType": "string,150",
         "htmlType": "text",
-        "validations": "required|string|max:99|string|max:99",
+        "validations": "required|string|max:150|string|max:150",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -46,5 +46,45 @@
         "inForm": true,
         "inIndex": true,
         "inView": true
+    },
+    {
+        "name": "updated_at",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "created_at",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "deleted_at",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Coch,id_ciliente"
     }
 ]

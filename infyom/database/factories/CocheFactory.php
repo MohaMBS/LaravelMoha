@@ -22,12 +22,13 @@ class CocheFactory extends Factory
     public function definition()
     {
         return [
-            'marca' => $this->faker->text,
-        'modelo' => $this->faker->text,
-        'fecha' => $this->faker->word,
-        'deleted_at' => $this->faker->date('Y-m-d H:i:s'),
+            'marca' => $this->faker->word,
+        'modelo' => $this->faker->word,
+        'fecha' => $this->faker->date('Y-m-d H:i:s'),
+        'id_ciliente' => $this->faker->randomDigitNotNull,
         'updated_at' => $this->faker->date('Y-m-d H:i:s'),
-        'id_cilinete' => $this->faker->randomDigitNotNull
+        'created_at' => $this->faker->date('Y-m-d H:i:s'),
+        'deleted_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

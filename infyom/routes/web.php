@@ -25,3 +25,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('coches', App\Http\Controllers\CocheController::class);
 
 Route::resource('cilientes', App\Http\Controllers\CilienteController::class);
+
+Route::resource('poblacions', App\Http\Controllers\PoblacionController::class);

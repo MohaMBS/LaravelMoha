@@ -1,13 +1,13 @@
 <!-- Marca Field -->
-<div class="form-group col-sm-12 col-lg-12">
+<div class="form-group col-sm-6">
     {!! Form::label('marca', 'Marca:') !!}
-    {!! Form::textarea('marca', null, ['class' => 'form-control']) !!}
+    {!! Form::text('marca', null, ['class' => 'form-control','maxlength' => 150,'maxlength' => 150]) !!}
 </div>
 
 <!-- Modelo Field -->
-<div class="form-group col-sm-12 col-lg-12">
+<div class="form-group col-sm-6">
     {!! Form::label('modelo', 'Modelo:') !!}
-    {!! Form::textarea('modelo', null, ['class' => 'form-control']) !!}
+    {!! Form::text('modelo', null, ['class' => 'form-control','maxlength' => 150,'maxlength' => 150]) !!}
 </div>
 
 <!-- Fecha Field -->
@@ -26,8 +26,8 @@
     </script>
 @endpush
 
-<!-- Id Cilinete Field -->
+<!-- Id Ciliente Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id_cilinete', 'Id Cilinete:') !!}
-    {!! Form::number('id_cilinete', null, ['class' => 'form-control']) !!}
+    {!! Form::label('id_ciliente', 'Id Ciliente:') !!}
+    {!! Form::number('id_ciliente', null, ['class' => 'form-control']) !!}
 </div>

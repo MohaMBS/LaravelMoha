@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Coche
  * @package App\Models
- * @version February 7, 2021, 5:40 pm UTC
+ * @version February 8, 2021, 5:55 pm UTC
  *
+ * @property \App\Models\Ciliente $idCiliente
  * @property string $marca
  * @property string $modelo
- * @property string $fecha
- * @property integer $id_cilinete
+ * @property string|\Carbon\Carbon $fecha
+ * @property integer $id_ciliente
  */
 class Coche extends Model
 {
@@ -23,6 +24,7 @@ class Coche extends Model
     use HasFactory;
 
     public $table = 'coches';
+    public $timestamps =false;
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -36,7 +38,7 @@ class Coche extends Model
         'marca',
         'modelo',
         'fecha',
-        'id_cilinete'
+        'id_ciliente'
     ];
 
     /**
@@ -48,8 +50,8 @@ class Coche extends Model
         'id' => 'integer',
         'marca' => 'string',
         'modelo' => 'string',
-        'fecha' => 'date',
-        'id_cilinete' => 'integer'
+        'fecha' => 'datetime',
+        'id_ciliente' => 'integer'
     ];
 
     /**
@@ -58,13 +60,19 @@ class Coche extends Model
      * @var array
      */
     public static $rules = [
-        'marca' => 'required|string',
-        'modelo' => 'required|string',
+        'marca' => 'required|string|max:150',
+        'modelo' => 'required|string|max:150',
         'fecha' => 'required',
-        'deleted_at' => 'nullable',
+        'id_ciliente' => 'required|integer',
         'updated_at' => 'nullable',
-        'id_cilinete' => 'nullable|integer'
+        'created_at' => 'nullable'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function idCiliente()
+    {
+        return $this->belongsTo(\App\Models\Ciliente::class, 'id_ciliente');
+    }
 }

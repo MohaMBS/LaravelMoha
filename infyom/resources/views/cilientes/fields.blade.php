@@ -1,13 +1,13 @@
 <!-- Nom Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('nom', 'Nom:') !!}
-    {!! Form::text('nom', null, ['class' => 'form-control','maxlength' => 99,'maxlength' => 99]) !!}
+    {!! Form::text('nom', null, ['class' => 'form-control','maxlength' => 150,'maxlength' => 150]) !!}
 </div>
 
 <!-- Cognom Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('cognom', 'Cognom:') !!}
-    {!! Form::text('cognom', null, ['class' => 'form-control','maxlength' => 99,'maxlength' => 99]) !!}
+    {!! Form::text('cognom', null, ['class' => 'form-control','maxlength' => 150,'maxlength' => 150]) !!}
 </div>
 
 <!-- Nif Field -->

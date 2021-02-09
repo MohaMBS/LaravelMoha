@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Coche</h1>
+                    <h1>Create Poblacion</h1>
                 </div>
             </div>
         </div>
@@ -27,19 +27,19 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'coches.store']) !!}
+            {!! Form::open(['route' => 'poblacions.store']) !!}
 
             <div class="card-body">
 
                 <div class="row">
-                    @include('coches.fields')
+                    @include('poblacions.fields')
                 </div>
 
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('coches.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('poblacions.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
             {!! Form::close() !!}

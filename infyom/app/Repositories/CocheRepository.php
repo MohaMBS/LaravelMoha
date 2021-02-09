@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class CocheRepository
  * @package App\Repositories
- * @version February 7, 2021, 5:40 pm UTC
+ * @version February 8, 2021, 5:55 pm UTC
 */
 
 class CocheRepository extends BaseRepository
@@ -20,7 +20,7 @@ class CocheRepository extends BaseRepository
         'marca',
         'modelo',
         'fecha',
-        'id_cilinete'
+        'id_ciliente'
     ];
 
     /**

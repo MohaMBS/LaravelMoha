@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Coche</h1>
+                    <h1>Edit Poblacion</h1>
                 </div>
             </div>
         </div>
@@ -27,22 +27,20 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'coches.store']) !!}
+            {!! Form::model($poblacion, ['route' => ['poblacions.update', $poblacion->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
-
                 <div class="row">
-                    @include('coches.fields')
+                    @include('poblacions.fields')
                 </div>
-
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('coches.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('poblacions.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
-            {!! Form::close() !!}
+           {!! Form::close() !!}
 
         </div>
     </div>

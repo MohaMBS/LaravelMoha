@@ -13,9 +13,9 @@
     },
     {
         "name": "marca",
-        "dbType": "text,65535",
-        "htmlType": "textarea",
-        "validations": "required|string|string",
+        "dbType": "string,150",
+        "htmlType": "text",
+        "validations": "required|string|max:150|string|max:150",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -25,9 +25,9 @@
     },
     {
         "name": "modelo",
-        "dbType": "text,65535",
-        "htmlType": "textarea",
-        "validations": "required|string|string",
+        "dbType": "string,150",
+        "htmlType": "text",
+        "validations": "required|string|max:150|string|max:150",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -37,7 +37,7 @@
     },
     {
         "name": "fecha",
-        "dbType": "date",
+        "dbType": "datetime",
         "htmlType": "date",
         "validations": "required",
         "searchable": true,
@@ -48,16 +48,16 @@
         "inView": true
     },
     {
-        "name": "deleted_at",
-        "dbType": "datetime:nullable",
-        "htmlType": "date",
-        "validations": "nullable|nullable",
-        "searchable": false,
-        "fillable": false,
+        "name": "id_ciliente",
+        "dbType": "integer,false",
+        "htmlType": null,
+        "validations": "required|integer|integer",
+        "searchable": true,
+        "fillable": true,
         "primary": false,
-        "inForm": false,
-        "inIndex": false,
-        "inView": false
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
     },
     {
         "name": "updated_at",
@@ -72,15 +72,31 @@
         "inView": false
     },
     {
-        "name": "id_cilinete",
-        "dbType": "integer,false",
-        "htmlType": null,
-        "validations": "nullable|integer|nullable|integer",
-        "searchable": true,
-        "fillable": true,
+        "name": "created_at",
+        "dbType": "datetime:nullable",
+        "htmlType": "date",
+        "validations": "nullable|nullable",
+        "searchable": false,
+        "fillable": false,
         "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "deleted_at",
+        "dbType": "datetime:nullable",
+        "htmlType": "date",
+        "validations": "nullable|nullable",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Ciliente,id_ciliente"
     }
 ]

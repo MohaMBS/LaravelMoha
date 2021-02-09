@@ -16,9 +16,9 @@
     <p>{{ $coche->fecha }}</p>
 </div>
 
-<!-- Id Cilinete Field -->
+<!-- Id Ciliente Field -->
 <div class="col-sm-12">
-    {!! Form::label('id_cilinete', 'Id Cilinete:') !!}
-    <p>{{ $coche->id_cilinete }}</p>
+    {!! Form::label('id_ciliente', 'Id Ciliente:') !!}
+    <p>{{ $coche->id_ciliente }}</p>
 </div>
 

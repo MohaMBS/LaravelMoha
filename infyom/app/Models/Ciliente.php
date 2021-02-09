@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Ciliente
  * @package App\Models
- * @version February 7, 2021, 6:12 pm UTC
+ * @version February 8, 2021, 5:55 pm UTC
  *
+ * @property \Illuminate\Database\Eloquent\Collection $coches
  * @property string $nom
  * @property string $cognom
  * @property string $nif
@@ -26,7 +27,7 @@ class Ciliente extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-
+    public $timestamps =false;
     protected $dates = ['deleted_at'];
 
 
@@ -55,10 +56,19 @@ class Ciliente extends Model
      * @var array
      */
     public static $rules = [
-        'nom' => 'required|string|max:99',
-        'cognom' => 'required|string|max:99',
-        'nif' => 'required|string|max:9'
+        'nom' => 'required|string|max:150',
+        'cognom' => 'required|string|max:150',
+        'nif' => 'required|string|max:9',
+        'updated_at' => 'nullable',
+        'created_at' => 'nullable',
+        'deleted_at' => 'nullable'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function coches()
+    {
+        return $this->hasMany(\App\Models\Coche::class, 'id_ciliente');
+    }
 }

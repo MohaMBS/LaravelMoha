@@ -25,6 +25,9 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <a href="{{ url('coches') }}">Crud de coches.</a><br>
+                    <a href="{{ url('cilientes') }}">Crud de Clientes.</a><br>
+                    <a href="{{ url('poblacions') }}">Crud de polaciones.</a>
                 </div>
             </div>
         </div>

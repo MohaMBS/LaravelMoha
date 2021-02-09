@@ -24,7 +24,10 @@ class CilienteFactory extends Factory
         return [
             'nom' => $this->faker->word,
         'cognom' => $this->faker->word,
-        'nif' => $this->faker->word
+        'nif' => $this->faker->word,
+        'updated_at' => $this->faker->date('Y-m-d H:i:s'),
+        'created_at' => $this->faker->date('Y-m-d H:i:s'),
+        'deleted_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }
