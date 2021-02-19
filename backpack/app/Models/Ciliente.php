@@ -34,7 +34,9 @@ class Ciliente extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
+    public function coche(){
+        return $this->belongsTo('App\Models\Coche', 'id_ciliente', 'id');
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

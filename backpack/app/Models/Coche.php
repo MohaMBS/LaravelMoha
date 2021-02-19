@@ -17,7 +17,7 @@ class Coche extends Model
 
     protected $table = 'coches';
     // protected $primaryKey = 'id';
-    // public $timestamps = false;
+    public $timestamps = false;
     protected $guarded = ['id'];
     protected $fillable = ['marca','modelo','fecha','id_ciliente'];
     // protected $hidden = [];
@@ -34,8 +34,12 @@ class Coche extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
+    public function cliente(){
+        //return $this->belongsTo(Ciliente::class, 'id_ciliente');
+        return $this->belongsTo('App\Models\Ciliente', 'id_ciliente', 'id');
+    }
     /*
+
     |--------------------------------------------------------------------------
     | SCOPES
     |--------------------------------------------------------------------------

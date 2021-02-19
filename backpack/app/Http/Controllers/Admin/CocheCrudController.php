@@ -40,7 +40,20 @@ class CocheCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        //CRUD::setFromDb(); // columns
+        $this->crud->column('marca');
+        $this->crud->column('modelo');
+        $this->crud->column('fecha');
+        $this->crud->addColumn([  
+            // any type of relationship
+            'name'         => 'cliente', // name of relationship method in the model
+            'type'         => 'relationship',
+            'label'        => 'Nom', // Table column heading
+            // OPTIONAL
+            // 'entity'    => 'tags', // the method that defines the relationship in your Model
+            // 'attribute' => 'name', // foreign key attribute that is shown to user
+            // 'model'     => App\Models\Category::class, // foreign key model
+         ]);
 
         /**<
          * Columns can be defined using the fluent syntax or array syntax:
@@ -56,11 +69,34 @@ class CocheCrudController extends CrudController
      * @return void
      */
     protected function setupCreateOperation()
-    {
+    {   
         CRUD::setValidation(CocheRequest::class);
-
-        CRUD::setFromDb(); // fields
-
+        
+        $this->crud->addField([    
+            'name'  => 'marca',
+            'type'  => 'text',
+            'label' => 'Marca',
+        ]);
+        $this->crud->addField([    
+            'name'  => 'modelo',
+            'type'  => 'text',
+            'label' => 'Modelo',
+        ]);
+        $this->crud->addField([    
+            'name'  => 'fecha',
+            'type'  => 'datetime',
+            'label' => 'Fecha',
+        ]); 
+        $this->crud->addField([
+            'label' => 'Ciliente',
+            'type' => 'select2',
+            'name' => 'id_ciliente', // the db column for the foreign key
+            'entity' => 'cliente', // the method that defines the relationship in your Model
+            'attribute' => 'nom', // foreign key attribute that is shown to user
+            'model' => 'App\Models\Ciliente' // foreign key model
+        ]);
+        //CRUD::setFromDb(); // fields
+        //$this->crud->addField("test");
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

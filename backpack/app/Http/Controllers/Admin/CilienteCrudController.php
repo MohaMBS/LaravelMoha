@@ -40,7 +40,14 @@ class CilienteCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::setFromDb(); // columns
-
+        $this->crud->addField([
+            'label' => 'Personnes',
+            'type' => 'select2',
+            'name' => 'id_ciliente', // the db column for the foreign key
+            'entity' => 'coche', // the method that defines the relationship in your Model
+            'attribute' => 'marca', // foreign key attribute that is shown to user
+            'model' => 'App\Models\Coche' // foreign key model
+        ]);
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
