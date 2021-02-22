@@ -35,8 +35,8 @@ class Coche extends Model
     |--------------------------------------------------------------------------
     */
     public function cliente(){
-        //return $this->belongsTo(Ciliente::class, 'id_ciliente');
-        return $this->belongsTo('App\Models\Ciliente', 'id_ciliente', 'id');
+        return $this->belongsTo(Ciliente::class, 'id_ciliente');
+       // return $this->belongsTo('App\Models\Ciliente', 'id_ciliente', 'id');
     }
     /*
 
