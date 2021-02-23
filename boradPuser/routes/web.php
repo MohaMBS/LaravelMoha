@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Home;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,5 +20,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/facebook', [Home::class, "index"])->middleware(['auth'])->name('facebook');
+Route::get('/facebook/post', [Home::class, "send"])->middleware(['auth'])->name('newPost');
 
 require __DIR__.'/auth.php';
