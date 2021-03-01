@@ -38,3 +38,11 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('golosinas.index') }}"
+       class="nav-link {{ Request::is('golosinas*') ? 'active' : '' }}">
+        <p>Golosinas</p>
+    </a>
+</li>
+
+

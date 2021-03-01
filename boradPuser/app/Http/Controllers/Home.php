@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Events\NewMessageNotification;
 use Illuminate\Support\Facades\Auth; 
 use App\Models\Message;
+use App\Models\User;
 class Home extends Controller
 {
     /**
@@ -15,21 +16,26 @@ class Home extends Controller
      */
     public function index()
     {   
-        $oldMessages = Message::where('from', Auth::user()->id)->get();
+        $oldMessages = Message::where('from', Auth::user()->id)->orWhere('to', 2)->orderByDesc('created_at')->get();
+        $users= User::select('id','name')->where('id','!=',Auth::user()->id)->get();
         $data["user_id"] = Auth::user()->id;
         $data["old_messages"] = $oldMessages;
+        $data["users"] = $users;
         return view('facebook', $data);
-
     }
 
-    public function send(){
+    public function send(Request $request){
+        $request->validate([
+            'message' => 'required'
+        ]);
         $message = new Message;
         $message->setAttribute('from', Auth::user()->id);
         $message->setAttribute('to', 2);
-        $message->setAttribute('message', 'Demo message from user 1 to user 2');
+        $message->setAttribute('message', $request->input('message'));
         $message->save();
         event(new NewMessageNotification($message));
-        return "done";
+        $data["user_id"] = Auth::user()->id;
+        return $this->index();
     }
 
     /**

@@ -8,6 +8,6 @@ function init(){
 
     .listen('NewMessageNotification', (e) => {
     //alert(e.message.message);
-    $("#posts").append("<p>"+e.message.message+"</p>");
+    $("#posts").prepend("<div class=\"msg\">"+e.message.message+"</div>");
     });
 }
