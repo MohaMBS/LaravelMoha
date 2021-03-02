@@ -26,6 +26,13 @@
         .mt-1{
             margin-top:1em;
         }
+        .mt-2{
+            margin-top:2em!important;
+        }
+        .alert-d{
+            color:red;
+            background-color:yellow;
+        }
     </style>
 
 </head>
@@ -34,22 +41,36 @@
         <h1>THIS IS FAKE BOOK WE DON'T LIKE REAL THINGS</h1>
         <div id="posts">
         @foreach ($old_messages as $message)
-            <div class="msg">{{ $message->message }}</div>
+            <div class="msg"><strong> 
+            @if ($message->from == $user_id)
+                You: 
+            @else
+                @foreach ($users as $user)
+                    @if ($message->from == $user->id)
+                        {{ $user->name }}:
+                    @endif
+                @endforeach
+            @endif
+            </strong> {{ $message->message }}</div>
         @endforeach
         </div>
-        <form action="{{ route('newPost') }}" method="POST" class="mt-1">
-        <label for="message">Write here you message: </label>
+        <form action="{{ route('newPost') }}" method="post" class="mt-1">
             @csrf
+            <input type="number" name="user_id" id="user_id" value="{{ $user_id }}" hidden>
+            <label for="message">Write here you message: </label>
             <input type="text" name="message" id="message" placeholder="Write here you message..."> 
             <label for="type">Select to talk:</label>
-            <select name="to">
+            <select name="to" id="toTalk">
                 <option value="public">Public channel.</option>
                 @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach
             </select>
-            <input type="submit" value="Send">
+            <input type="submit" value="Send" id="send">
         </form>
+        @error('message')
+            <span class="alert-d mt-2">{{ $message }}</span>
+        @enderror
     </center>
 </body>
 </html>

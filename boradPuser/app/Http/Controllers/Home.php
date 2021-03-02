@@ -30,7 +30,7 @@ class Home extends Controller
         ]);
         $message = new Message;
         $message->setAttribute('from', Auth::user()->id);
-        $message->setAttribute('to', 2);
+        $message->setAttribute('to', $request->input('to'));
         $message->setAttribute('message', $request->input('message'));
         $message->save();
         event(new NewMessageNotification($message));

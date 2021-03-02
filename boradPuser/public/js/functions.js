@@ -1,13 +1,73 @@
-window.onload = function() { init(); };
+$(document).ready(()=>{
 
-function init(){
-    var script_tag = document.getElementById('functions')
-    var user_id = script_tag.getAttribute("user-id");
+    function msgPrivate(){
+        Echo.leave()
+        console.log("Cambiando a privado...")
+        var script_tag = document.getElementById('functions')
+        var user_id = script_tag.getAttribute("user-id");
+    
+        Echo.private('user.'+user_id)
+    
+        .listen('NewMessageNotification', (e) => {
+            let name = "";
+                $("#toTalk option").each(function(){
+                   if ($(this).val() == e.message.from){        
+                        name = $(this).text();
+                   }
+                });
+            $("#posts").prepend("<div class=\"msg\"><strong>"+name+": </strong>"+e.message.message+"</div>");
+        });
+    }
 
-    Echo.private('user.'+user_id)
+    function msgPublic(){
+        Echo.leave()
+        console.log("Cambiando a publico...")
+        var script_tag = document.getElementById('functions')
+        var user_id = script_tag.getAttribute("user-id");
+    
+        Echo.channel('user.public')
+    
+        .listen('NewMessageNotification', (e) => {
+            let name = "";
+            $("#toTalk option").each(function(){
+               if ($(this).val() == e.message.from){        
+                    name = $(this).text();
+               }
+            });
+            $("#posts").prepend("<div class=\"msg\"><strong>"+name+": </strong>"+e.message.message+"</div>");
+        });
+    }
 
-    .listen('NewMessageNotification', (e) => {
-    //alert(e.message.message);
-    $("#posts").prepend("<div class=\"msg\">"+e.message.message+"</div>");
+    msgPublic();
+    $("#toTalk").change(()=>{
+        if($("#toTalk").val()!="public"){
+            msgPrivate();
+        }else{
+            msgPublic();
+        }
     });
-}
+
+    $("#send").click((e)=>{
+        console.log("Click");
+        e.preventDefault();
+
+        var _token = $("input[name='_token']").val();
+        var message = $("#message").val();
+        var to = $("#toTalk").val();
+        var from = $("#user_id").val();
+
+        $.ajax({
+            url: "http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/facebook",
+            type:'POST',
+            data: {_token:_token, message:message, to:to,from:from},
+            success: function(data) {
+                console.log("Done!");
+                $("#posts").prepend("<div class=\"msg\"><strong>You:</strong>"+message+"</div>");
+                $("#message").val("");
+            }
+        })
+        return false;
+    })
+});
+
+
