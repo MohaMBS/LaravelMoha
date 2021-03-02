@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Events\NewMessageNotification;
+use App\Events\PublicPost;
 use Illuminate\Support\Facades\Auth; 
 use App\Models\Message;
 use App\Models\User;
@@ -33,7 +34,12 @@ class Home extends Controller
         $message->setAttribute('to', $request->input('to'));
         $message->setAttribute('message', $request->input('message'));
         $message->save();
-        event(new NewMessageNotification($message));
+        if($request->input('to') == "public"){
+            event(new PublicPost($message));
+        }else{
+            event(new NewMessageNotification($message));
+        }
+        
         $data["user_id"] = Auth::user()->id;
         return $this->index();
     }

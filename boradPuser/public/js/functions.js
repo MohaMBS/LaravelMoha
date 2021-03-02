@@ -1,7 +1,6 @@
 $(document).ready(()=>{
 
     function msgPrivate(){
-        Echo.leave()
         console.log("Cambiando a privado...")
         var script_tag = document.getElementById('functions')
         var user_id = script_tag.getAttribute("user-id");
@@ -20,29 +19,30 @@ $(document).ready(()=>{
     }
 
     function msgPublic(){
-        Echo.leave()
         console.log("Cambiando a publico...")
         var script_tag = document.getElementById('functions')
         var user_id = script_tag.getAttribute("user-id");
     
-        Echo.channel('user.public')
+        Echo.channel('channel.public')
     
-        .listen('NewMessageNotification', (e) => {
+        .listen('PublicPost', (e) => {
             let name = "";
             $("#toTalk option").each(function(){
                if ($(this).val() == e.message.from){        
                     name = $(this).text();
+                    $("#posts").prepend("<div class=\"msg\"><strong>"+name+": </strong>"+e.message.message+"</div>");
                }
-            });
-            $("#posts").prepend("<div class=\"msg\"><strong>"+name+": </strong>"+e.message.message+"</div>");
+            }); 
         });
     }
 
     msgPublic();
     $("#toTalk").change(()=>{
         if($("#toTalk").val()!="public"){
+            Echo.leaveChannel('channel.public')
             msgPrivate();
         }else{
+            Echo.leave('user.'+user_id)
             msgPublic();
         }
     });
