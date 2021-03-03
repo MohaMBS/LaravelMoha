@@ -1,10 +1,10 @@
 $(document).ready(()=>{
+    var script_tag = document.getElementById('functions')
+    var user_id = script_tag.getAttribute("user-id");
+    var user_name = script_tag.getAttribute("user-name");
 
     function msgPrivate(){
         console.log("Cambiando a privado...")
-        var script_tag = document.getElementById('functions')
-        var user_id = script_tag.getAttribute("user-id");
-    
         Echo.private('user.'+user_id)
             .listen('NewMessageNotification', (e) => {
                 let name = "";
@@ -19,17 +19,16 @@ $(document).ready(()=>{
 
     function msgPublic(){
         console.log("Cambiando a publico...")
-        var script_tag = document.getElementById('functions')
-        var user_id = script_tag.getAttribute("user-id");
     
         Echo.private('channel.public')
         .listenForWhisper('typing', (e) => {
             /*console.log("recibio wish")
             console.log(e.name);*/
+            $('.typing').text(e.name+' is typing');
             e.typing ? $('.typing').show() : $('.typing').hide()
             setTimeout( () => {
                 $('.typing').hide()
-              }, 1000)
+              }, 5000)
         })
         
         .listen('PublicPost', (e) => {
@@ -62,10 +61,10 @@ $(document).ready(()=>{
 
         setTimeout( () => {
             channel.whisper('typing', {
-            name: "Oky oky",
+            name: user_name,
             typing: true
             })
-        }, 500)
+        }, 1500)
         /*
         Echo.private('channel.public')
         .whisper('typing', {

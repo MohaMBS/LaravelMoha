@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>facebook</title>
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script id="functions" user-id="{{ $user_id }}" src="{{ asset('js/functions.js') }}" defer></script>
+    <script id="functions" user-id="{{ $user_id }}" src="{{ asset('js/functions.js') }}" user-name="{{ $nameOfUser[0]->name }}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body{
@@ -39,6 +39,7 @@
 <body>
     <center>
         <h1>THIS IS FAKE BOOK WE DON'T LIKE REAL THINGS</h1>
+        <h3 style="color:yellow;" id="nameOfAuthUser"> Welcome {{ $nameOfUser[0]->name }}!!</h3>
         <a style="color:red;display:none;" class="typing" > Esta escribiendo</a>
         <div id="posts">
         @foreach ($old_messages as $message)
