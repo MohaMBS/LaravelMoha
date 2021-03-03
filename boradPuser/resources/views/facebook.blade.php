@@ -39,6 +39,7 @@
 <body>
     <center>
         <h1>THIS IS FAKE BOOK WE DON'T LIKE REAL THINGS</h1>
+        <a style="color:red;display:none;" class="typing" > Esta escribiendo</a>
         <div id="posts">
         @foreach ($old_messages as $message)
             <div class="msg"><strong> 

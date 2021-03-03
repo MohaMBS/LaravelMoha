@@ -16,8 +16,29 @@ class Home extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {   /*
+        if($request->input('to') !== null){
+            $oldMessages = Message::Where('to', $request->input('to'))->orderByDesc('created_at')->get();
+        }else{
+            $oldMessages = Message::where('from', Auth::user()->id)->orWhere('to', 'public')->orderByDesc('created_at')->get();
+        }
+        */
+        $oldMessages = Message::Where('to','public' )->orderByDesc('created_at')->get();
+        $users= User::select('id','name')->where('id','!=',Auth::user()->id)->get();
+        $data["user_id"] = Auth::user()->id;
+        $data["old_messages"] = $oldMessages;
+        $data["users"] = $users;
+        return view('facebook', $data);
+    }
+    public function indexSelection(Request $request, $to)
     {   
-        $oldMessages = Message::where('from', Auth::user()->id)->orWhere('to', 2)->orderByDesc('created_at')->get();
+        if($to == "public"){
+            $oldMessages = Message::Where('to', $to)->orderByDesc('created_at')->get();
+        }else{
+            dd();
+            $oldMessages = Message::where('from', Auth::user()->id)->Where('to', $to)->orWhere('from',$to)->Where('to', Auth::user()->id)->orderByDesc('created_at')->get();
+        }
+        $oldMessages = Message::Where('to','public' )->orderByDesc('created_at')->get();
         $users= User::select('id','name')->where('id','!=',Auth::user()->id)->get();
         $data["user_id"] = Auth::user()->id;
         $data["old_messages"] = $oldMessages;

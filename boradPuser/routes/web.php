@@ -23,5 +23,6 @@ Route::get('/dashboard', function () {
 
 Route::get('/facebook', [Home::class, "index"])->middleware(['auth'])->name('facebook');
 Route::post('/facebook', [Home::class, "send"])->middleware(['auth'])->name('newPost');
+Route::get('/getMsg/{to}', [Home::class, "indexSelection"])->middleware(['auth']);
 
 require __DIR__.'/auth.php';

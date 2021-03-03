@@ -9,24 +9,19 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow; /*Importamos para poder crear los eventos */
-use App\Models\Message;/* Creamos el evento a partir del evento */
 
-class PublicPost implements ShouldBroadcastNow
+class Typing
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    
-    public $message;
-    
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Message $message )
+    public function __construct()
     {
         //
-        $this->message = $message;
     }
 
     /**
@@ -36,6 +31,6 @@ class PublicPost implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel.public');
+        return new PrivateChannel('typing');
     }
 }
