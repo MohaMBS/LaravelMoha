@@ -2,9 +2,10 @@ $(document).ready(()=>{
     var script_tag = document.getElementById('functions')
     var user_id = script_tag.getAttribute("user-id");
     var user_name = script_tag.getAttribute("user-name");
+    let usersInfo=[];
 
     function msgPrivate(){
-        console.log("Cambiando a privado...")
+        //console.log("Cambiando a privado...")
         Echo.private('user.'+user_id)
             .listen('NewMessageNotification', (e) => {
                 let name = "";
@@ -16,9 +17,8 @@ $(document).ready(()=>{
                 $("#posts").prepend("<div class=\"msg\"><strong>"+name+": </strong>"+e.message.message+"</div>");
             });
     }
-
     function msgPublic(){
-        console.log("Cambiando a publico...")
+        //console.log("Cambiando a publico...")
     
         Echo.private('channel.public')
         .listenForWhisper('typing', (e) => {
@@ -42,21 +42,64 @@ $(document).ready(()=>{
         });
     }
     
+    function isUserMatching (allUsers, userId) {
+        let matched = false
+        if(userId == user_id){
+            matched={name:"You"}
+        }else{
+            allUsers.map(user => {
+                if (user.id == userId) {
+                    matched = user
+                }
+            })
+        }
+        
+        return matched
+    }
     msgPublic();
     $("#toTalk").change(()=>{
         if($("#toTalk").val()!="public"){
             Echo.leaveChannel('channel.public')
             msgPrivate();
-            
+            postWall=$("#posts");
+            postWall.empty();
+            $.getJSON("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/getMsg/"+$("#toTalk").val(), (response)=>{
+                $.each( response, function() {
+                    usersInfo = response.userName
+                    console.log(usersInfo)
+                    response.old_messages.map((data)=>{
+                        let user = isUserMatching(usersInfo, data.from)
+                        if(user){
+                            postWall.prepend("<div class=\"msg\" user-id=\""+data.from+"\" ><strong>"+user.name+":</strong>"+data.message+"</div>");
+                        }
+                    })
+                  });
+                  if(postWall.children().length == 0){
+                    postWall.prepend("<h1 style=\"color:red;\">No tienes ningun mensaje con esta persona</h1>")
+                }
+            })
         }else{
             Echo.leave('user.'+user_id)
             msgPublic();
+            postWall=$("#posts");
+            postWall.empty();
+            $.getJSON("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/getMsg/"+$("#toTalk").val(), (response)=>{
+                $.each( response, function( key, val ) {
+                    response.old_messages.map((data)=>{
+                        //console.log(data.message)
+                        postWall.append("<div class=\"msg\" user-from=\""+data.from+"\" ><strong>:</strong>"+data.message+"</div>");
+                    })
+                });
+                if(postWall.children().length == 0){
+                    postWall.append("<h1 style=\"color:red;\">No tienes ningun mensaje con esta persona</h1>")
+                }
+            })
         }
     });
 
     
     $('#message').on('keydown', ()=>{
-        console.log("enviando...")
+        //console.log("enviando...")
         let channel = Echo.private('channel.public')
 
         setTimeout( () => {
@@ -73,7 +116,7 @@ $(document).ready(()=>{
     })
 
     $("#send").click((e)=>{
-        console.log("Click");
+        //console.log("Click");
         e.preventDefault();
         var _token = $("input[name='_token']").val();
         var message = $("#message").val();
@@ -100,7 +143,7 @@ $(document).ready(()=>{
 
 
   /*
-            $.get("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/facebook/to="+$("#toTalk").val(), (response)=>{
+            $.get("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/getMsg/to="+$("#toTalk").val(), (response)=>{
                 console.log($(response).find(".msg"))
                 $("#posts").children().remove();
                 $("#posts").html($(response).find(".msg"))

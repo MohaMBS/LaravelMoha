@@ -33,20 +33,17 @@ class Home extends Controller
         return view('facebook', $data);
     }
 
-    public function indexSelection(Request $request, $to)
+    public function indexSelection($to)
     {   
         if($to == "public"){
             $oldMessages = Message::Where('to', $to)->orderByDesc('created_at')->get();
         }else{
-            dd();
-            $oldMessages = Message::where('from', Auth::user()->id)->Where('to', $to)->orWhere('from',$to)->Where('to', Auth::user()->id)->orderByDesc('created_at')->get();
+            $oldMessages = Message::where('from', Auth::user()->id)->Where('to', $to)->get();
         }
-        $oldMessages = Message::Where('to','public' )->orderByDesc('created_at')->get();
-        $users= User::select('id','name')->where('id','!=',Auth::user()->id)->get();
-        $data["user_id"] = Auth::user()->id;
         $data["old_messages"] = $oldMessages;
-        $data["users"] = $users;
-        return view('facebook', $data);
+        $data["userName"] = User::All();
+        
+        return  $data;
     }
 
     public function send(Request $request){
