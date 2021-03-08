@@ -68,7 +68,7 @@
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach
             </select>
-            <input type="submit" value="Send" id="send">
+            <input type="button" value="Send" id="send">
         </form>
         @error('message')
             <span class="alert-d mt-2">{{ $message }}</span>

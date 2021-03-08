@@ -22,8 +22,6 @@ $(document).ready(()=>{
     
         Echo.private('channel.public')
         .listenForWhisper('typing', (e) => {
-            /*console.log("recibio wish")
-            console.log(e.name);*/
             $('.typing').text(e.name+' is typing');
             e.typing ? $('.typing').show() : $('.typing').hide()
             setTimeout( () => {
@@ -135,19 +133,6 @@ $(document).ready(()=>{
         })
         return false;
     })
-
-
-
-
-
-
-
-  /*
-            $.get("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/getMsg/to="+$("#toTalk").val(), (response)=>{
-                console.log($(response).find(".msg"))
-                $("#posts").children().remove();
-                $("#posts").html($(response).find(".msg"))
-            })*/  
 });
 
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Message extends Migration
+class CreateCommentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class Message extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('from');
-            $table->string('to');
-            $table->string('message');
+            $table->unsignedBigInteger('idMessage')->length(20);
+            $table->unsignedBigInteger('idUSer')->length(20);
+            $table->string('comment');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class Message extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('comments');
     }
 }

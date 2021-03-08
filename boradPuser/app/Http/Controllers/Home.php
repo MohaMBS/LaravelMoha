@@ -60,7 +60,7 @@ class Home extends Controller
         }else{
             event(new NewMessageNotification($message));
         }
-        
+        event(new NewMessageNotification($message));
         $data["user_id"] = Auth::user()->id;
         return $this->index();
     }
