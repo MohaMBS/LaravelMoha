@@ -4,6 +4,7 @@ $(document).ready(()=>{
     var user_name = script_tag.getAttribute("user-name");
     let usersInfo=[];
 
+    refresButtons()
     function msgPrivate(){
         //console.log("Cambiando a privado...")
         Echo.private('user.'+user_id)
@@ -21,12 +22,12 @@ $(document).ready(()=>{
         Echo.join(`presence.home`)
         .here((users) => {
             users.forEach(element => {
-                $(".usersOnLine").children("marquee").append("<p id='"+element.id+"'> ·"+element.name+"</p>")
+                $(".usersOnLine").children("marquee").append("<span id='"+element.id+"'> ·"+element.name+"</span>")
             });
         })
         .joining((user) => {
             console.log(user.name);
-            $(".usersOnLine").children("marquee").append("<p id='"+user.id+"'> ·"+user.name+"</p>")
+            $(".usersOnLine").children("marquee").append("<span id='"+user.id+"'> ·"+user.name+"</span>")
         })
         .leaving((user) => {
             $(".usersOnLine").children("marquee").children("#"+user.id).remove()
@@ -137,8 +138,9 @@ $(document).ready(()=>{
             data: {_token:_token, message:message, to:to,from:from},
             success: function(data) {
                 console.log("Done!");
-                $("#posts").prepend("<div class=\"msg\"><strong>You:</strong>"+message+"</div>");
+                $("#posts").prepend("<div class=\"msg\"><div><strong>You:</strong>"+message+"</div><span class=\"countLikes\">0</span><input type=\"button\" id=\""+data.message_id+"\" class=\"like \" value=\"LIKE\"> <input type=\"button\" id=\""+data.message_id+"\" class=\"comment\" value=\"Show 0 comments\"> <div class=\"comentArea\" hidden> <textarea name=\"comment\"  cols=\"150\" rows=\"10\"></textarea><br> <input type=\"button\" value=\"Comment\" id=\""+data.message_id+"\"> <h3>Comentarios:</h3> </div></div>");
                 $("#message").val("");
+                refresButtons()
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 alert("Escriba el mensaje");
@@ -146,38 +148,53 @@ $(document).ready(()=>{
         })
         return false;
     })  
-    $("input.like").click((e)=>{
-        let idPostToLike=e.target.id;
-        console.log()
-        var _token = $("input[name='_token']").val();
-        $.post("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/like", {
-            '_token': _token,
-            idPost : idPostToLike
+
+    function refresButtons(){
+        likebutton=$("input.like")
+        commentbutton=$(".comment")
+        areatextbutton=$(".comentArea")
+        function gestorLike(idPostToLike){
+            if($("input.like#"+idPostToLike).hasClass("liked")){
+                $("input.like#"+idPostToLike).removeClass("liked")
+                $("input.like#"+idPostToLike).parent().children('span').text(parseInt($("input.like#"+idPostToLike).parent().children('span').text())-1)
+            }else{
+                $("input.like#"+idPostToLike).addClass("liked")
+                $("input.like#"+idPostToLike).parent().children('span').text(parseInt($("input.like#"+idPostToLike).parent().children('span').text())+1)
+            }
+        }
+        likebutton.click((e)=>{
+            let idPostToLike=e.target.id;
+            console.log()
+            var _token = $("input[name='_token']").val();
+            $.post("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/like", {
+                '_token': _token,
+                idPost : idPostToLike
+            })
+            .done(
+                gestorLike(idPostToLike)
+            );
+             
         })
-        .done(
-            $("input.like#"+idPostToLike).parent().children('span').text(parseInt($("input.like#"+idPostToLike).parent().children('span').text())+1)
-        );
-         
-    })
-    $(".comment").click(function(e){
-        
-        $(this).parent().children(".comentArea").toggle()
-        
-    })
-    $(".comentArea").children(":button").click(function(){
-        
-        let idPostToLike = $(this).attr("id")
-        var _token = $("input[name='_token']").val();
-        $.post("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/comment", {
-            '_token': _token,
-            idPost : idPostToLike,
-            comment : $(this).parent().children("textarea").val()
+        commentbutton.click(function(e){
+            console.log("asd")
+            $(this).parent().children(".comentArea").toggle()
+            
         })
-        .done(
-            $(this).parent().append("<p> You: "+$(this).parent().children("textarea").val()+"</p>")  ,
-            $(this).parent().children("textarea").val("") 
-        );
-    })
+        areatextbutton.children(":button").click(function(){
+            
+            let idPostToLike = $(this).attr("id")
+            var _token = $("input[name='_token']").val();
+            $.post("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/comment", {
+                '_token': _token,
+                idPost : idPostToLike,
+                comment : $(this).parent().children("textarea").val()
+            })
+            .done(
+                $(this).parent().append("<p> You: "+$(this).parent().children("textarea").val()+"</p>")  ,
+                $(this).parent().children("textarea").val("") 
+            );
+        })
+    }
 });
 
 
