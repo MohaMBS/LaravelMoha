@@ -21,12 +21,12 @@ $(document).ready(()=>{
         Echo.join(`presence.home`)
         .here((users) => {
             users.forEach(element => {
-                $(".usersOnLine").children("marquee").append("<p id='"+element.id+"'>"+element.name+"</p>")
+                $(".usersOnLine").children("marquee").append("<p id='"+element.id+"'> ·"+element.name+"</p>")
             });
         })
         .joining((user) => {
             console.log(user.name);
-            $(".usersOnLine").children("marquee").append("<p id='"+user.id+"'>"+user.name+"</p>")
+            $(".usersOnLine").children("marquee").append("<p id='"+user.id+"'> ·"+user.name+"</p>")
         })
         .leaving((user) => {
             $(".usersOnLine").children("marquee").children("#"+user.id).remove()

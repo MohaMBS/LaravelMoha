@@ -77,6 +77,17 @@
                         <textarea name="comment"  cols="150" rows="10"></textarea><br>
                         <input type="button" value="Comment" id="{{ $message->id }}">
                         <h3>Comentarios:</h3>
+                        @foreach ( $message->comments as $comment)
+                            @if ($comment->user_id == $user_id)
+                                <p> <strong>You: </strong>  {{ $comment->comment }}</p>
+                            @else
+                                @foreach ($users as $user)
+                                    @if ($comment->user_id == $user->id)
+                                    <p> <strong>{{ $user->name}}:</strong> {{ $comment->comment }}</p>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             @endforeach
