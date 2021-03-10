@@ -18,17 +18,27 @@ $(document).ready(()=>{
             });
     }
     function msgPublic(){
-        //console.log("Cambiando a publico...")
-    
+        Echo.join(`presence.home`)
+        .here((users) => {
+            users.forEach(element => {
+                $(".usersOnLine").children("marquee").append("<p id='"+element.id+"'>"+element.name+"</p>")
+            });
+        })
+        .joining((user) => {
+            console.log(user.name);
+            $(".usersOnLine").children("marquee").append("<p id='"+user.id+"'>"+user.name+"</p>")
+        })
+        .leaving((user) => {
+            $(".usersOnLine").children("marquee").children("#"+user.id).remove()
+        });
         Echo.private('channel.public')
         .listenForWhisper('typing', (e) => {
             $('.typing').text(e.name+' is typing');
             e.typing ? $('.typing').show() : $('.typing').hide()
             setTimeout( () => {
                 $('.typing').hide()
-              }, 5000)
+            }, 5000)
         })
-        
         .listen('PublicPost', (e) => {
             let name = "";
             $("#toTalk option").each(function(){
@@ -129,9 +139,44 @@ $(document).ready(()=>{
                 console.log("Done!");
                 $("#posts").prepend("<div class=\"msg\"><strong>You:</strong>"+message+"</div>");
                 $("#message").val("");
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("Escriba el mensaje");
             }
         })
         return false;
+    })  
+    $("input.like").click((e)=>{
+        let idPostToLike=e.target.id;
+        console.log()
+        var _token = $("input[name='_token']").val();
+        $.post("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/like", {
+            '_token': _token,
+            idPost : idPostToLike
+        })
+        .done(
+            $("input.like#"+idPostToLike).parent().children('span').text(parseInt($("input.like#"+idPostToLike).parent().children('span').text())+1)
+        );
+         
+    })
+    $(".comment").click(function(e){
+        
+        $(this).parent().children(".comentArea").toggle()
+        
+    })
+    $(".comentArea").children(":button").click(function(){
+        
+        let idPostToLike = $(this).attr("id")
+        var _token = $("input[name='_token']").val();
+        $.post("http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/comment", {
+            '_token': _token,
+            idPost : idPostToLike,
+            comment : $(this).parent().children("textarea").val()
+        })
+        .done(
+            $(this).parent().append("<p> You: "+$(this).parent().children("textarea").val()+"</p>")  ,
+            $(this).parent().children("textarea").val("") 
+        );
     })
 });
 

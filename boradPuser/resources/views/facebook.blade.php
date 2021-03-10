@@ -33,28 +33,53 @@
             color:red;
             background-color:yellow;
         }
+        marquee{
+            color: green;
+            border-style: solid;
+        }
+        ul{
+            list-style-type: circle;
+        }
     </style>
 
 </head>
 <body>
+    <div style="float:left;" class="usersOnLine">
+        <h3 style="color:green;">Users online:</h3>
+        <marquee direction="down" height="100" width="150" bgcolor="lightgrey" Scrollamount=1 >
+
+        </marquee>
+    </div>
     <center>
         <h1>THIS IS FAKE BOOK WE DON'T LIKE REAL THINGS</h1>
         <h3 style="color:yellow;" id="nameOfAuthUser"> Welcome {{ $nameOfUser[0]->name }}!!</h3>
         <a style="color:red;display:none;" class="typing" > Esta escribiendo</a>
-        <div id="posts">
-        @foreach ($old_messages as $message)
-            <div class="msg"><strong> 
-            @if ($message->from == $user_id)
-                You: 
-            @else
-                @foreach ($users as $user)
-                    @if ($message->from == $user->id)
-                        {{ $user->name }}:
-                    @endif
-                @endforeach
-            @endif
-            </strong> {{ $message->message }}</div>
-        @endforeach
+        <div id="posts" style="width:80%;">
+            @foreach ($old_messages as $message)
+                <div class="msg">
+                    <div>
+                        <strong> 
+                        @if ($message->from == $user_id)
+                            You: 
+                        @else
+                            @foreach ($users as $user)
+                                @if ($message->from == $user->id)
+                                    {{ $user->name }}:
+                                @endif
+                            @endforeach
+                        @endif
+                        </strong> {{ $message->message }}
+                    </div>
+                    <span class="countLikes">{{ $message->likes_count }}</span>
+                    <input type="button" id="{{ $message->id }}" class="like" value="LIKE"> 
+                    <input type="button" id="{{ $message->id }}" class="comment" value="COMMENT">
+                    <div class="comentArea" hidden>
+                        <textarea name="comment"  cols="150" rows="10"></textarea><br>
+                        <input type="button" value="Comment" id="{{ $message->id }}">
+                        <h3>Comentarios:</h3>
+                    </div>
+                </div>
+            @endforeach
         </div>
         <form action="{{ route('newPost') }}" method="post" class="mt-1">
             @csrf

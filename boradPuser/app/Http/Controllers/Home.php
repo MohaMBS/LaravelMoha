@@ -7,6 +7,8 @@ use App\Events\NewMessageNotification;
 use App\Events\PublicPost;
 use Illuminate\Support\Facades\Auth; 
 use App\Models\Message;
+use App\Models\Likes;
+use App\Models\Comment;
 use App\Models\User;
 class Home extends Controller
 {
@@ -23,7 +25,7 @@ class Home extends Controller
             $oldMessages = Message::where('from', Auth::user()->id)->orWhere('to', 'public')->orderByDesc('created_at')->get();
         }
         */
-        $oldMessages = Message::Where('to','public' )->orderByDesc('created_at')->get();
+        $oldMessages = Message::with("comments")->withCount("likes")->Where('to','public' )->orderByDesc('created_at')->get();
         $users= User::select('id','name')->where('id','!=',Auth::user()->id)->get();
         $nameOfUser= User::select('name')->where('id',Auth::user()->id)->get();
         $data["user_id"] = Auth::user()->id;
@@ -63,6 +65,31 @@ class Home extends Controller
         event(new NewMessageNotification($message));
         $data["user_id"] = Auth::user()->id;
         return $this->index();
+    }
+
+    public function comment(Request $request){
+        $register = new Comment;
+        $register->setAttribute('message_id',Message::find($request->input('idPost'))->id);
+        $register->setAttribute('user_id',Auth::user()->id);
+        $register->setAttribute('comment',$request->input('comment'));
+        $saved = $register->save();
+        if(!$saved){
+            App::abort(500, 'No se ha guardado.');
+        }else{
+            return response('Se ha guardado.', 200);
+        }
+    }
+
+    public function like(Request $request){
+        $register = new Likes;
+        $register->setAttribute('message_id',Message::find($request->input('idPost'))->id);
+        $register->setAttribute('user_id',Auth::user()->id);
+        $saved = $register->save();
+        if(!$saved){
+            App::abort(500, 'No se ha guardado.');
+        }else{
+            return response('Se ha guardado.', 200);
+        }
     }
 
     /**

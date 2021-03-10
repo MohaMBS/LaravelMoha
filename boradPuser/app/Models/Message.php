@@ -12,7 +12,12 @@ class Message extends Model
 
     public function likes()
     {
-        return $this->belongsToMany(Likes::class);
+        return $this->hasMany(Likes::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
     
 }

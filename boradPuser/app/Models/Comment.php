@@ -9,4 +9,8 @@ class Comment extends Model
 {
     use HasFactory;
 
+    public function messages()
+    {
+        return $this->belongsToMany(Message::class);
+    }
 }
