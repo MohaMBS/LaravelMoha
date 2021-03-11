@@ -125,17 +125,23 @@ $(document).ready(()=>{
     })
 
     $("#send").click((e)=>{
-        //console.log("Click");
         e.preventDefault();
         var _token = $("input[name='_token']").val();
         var message = $("#message").val();
         var to = $("#toTalk").val();
         var from = $("#user_id").val();
-
+        let data = new FormData();
+        data.append("_token",_token)
+        data.append("message",message)
+        data.append("form",from)
+        data.append("to",to)
+        data.append("imagen",$("#fileUpload").prop('files')[0])
         $.ajax({
             url: "http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/facebook",
             type:'POST',
-            data: {_token:_token, message:message, to:to,from:from},
+            contentType: false,
+            processData: false,
+            data: data,
             success: function(data) {
                 console.log("Done!");
                 $("#posts").prepend("<div class=\"msg\"><div><strong>You:</strong>"+message+"</div><span class=\"countLikes\">0</span><input type=\"button\" id=\""+data.message_id+"\" class=\"like \" value=\"LIKE\"> <input type=\"button\" id=\""+data.message_id+"\" class=\"comment\" value=\"Show 0 comments\"> <div class=\"comentArea\" hidden> <textarea name=\"comment\"  cols=\"150\" rows=\"10\"></textarea><br> <input type=\"button\" value=\"Comment\" id=\""+data.message_id+"\"> <h3>Comentarios:</h3> </div></div>");

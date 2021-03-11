@@ -55,6 +55,7 @@
         </marquee>
     </div>
     <center>
+        <h1 style="color: red">Si no va es porque estoy trabajando en ello</h1>
         <h1>THIS IS FAKE BOOK WE DON'T LIKE REAL THINGS</h1>
         <h3 style="color:yellow;" id="nameOfAuthUser"> Welcome {{ $nameOfUser[0]->name }}!!</h3>
         <a style="color:red;display:none;" class="typing" > Esta escribiendo</a>
@@ -73,6 +74,9 @@
                             @endforeach
                         @endif
                         </strong> {{ $message->message }}
+                        @if($message->imagePath != null)
+                            <img src="{{ asset('img/'.$message->imagePath) }}" alt="" width="150px" height="150px">
+                        @endif
                     </div>
                     <span class="countLikes">{{ $message->likes_count }}</span>
                     <?php $likeStatus = false; ?>
@@ -105,7 +109,7 @@
                 </div>
             @endforeach
         </div>
-        <form action="{{ route('newPost') }}" method="post" class="mt-1">
+        <form action="{{ route('newPost') }}" method="post" enctype="multipart/form-data" id="myform" class="mt-1">
             @csrf
             <input type="number" name="user_id" id="user_id" value="{{ $user_id }}" hidden>
             <label for="message">Write here you message: </label>
@@ -118,6 +122,10 @@
                 @endforeach
             </select>
             <input type="button" value="Send" id="send">
+            <div>
+                <label for="file">Imagen para subir: </label>
+                <input type="file" id="fileUpload" name="fileUpload" />
+            </div>
         </form>
         @error('message')
             <span class="alert-d mt-2">{{ $message }}</span>

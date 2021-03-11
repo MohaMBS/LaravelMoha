@@ -49,23 +49,34 @@ class Home extends Controller
     }
 
     public function send(Request $request){
+        
+        $message = new Message;
         $request->validate([
             'message' => 'required'
         ]);
-        $message = new Message;
+        if($request->imagen != "undefined"){
+            $request->validate([
+                'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg'
+            ]);
+            $imagenUp = $request->file('imagen');
+            $nameimagen = time().$imagenUp->getClientOriginalName();
+            $imagenUp->move(public_path().'/img/',$nameimagen);
+            $message->setAttribute('imagePath', $nameimagen);
+            $resp["img"]=$nameimagen;
+        }
         $message->setAttribute('from', Auth::user()->id);
         $message->setAttribute('to', $request->input('to'));
         $message->setAttribute('message', $request->input('message'));
         $message->save();
-        if($request->input('to') == "public"){
+        /*if($request->input('to') == "public"){
             event(new PublicPost($message));
         }else{
             event(new NewMessageNotification($message));
-        }
+        }*/
         event(new NewMessageNotification($message));
         $data["user_id"] = Auth::user()->id;
-        
-        return array("message_id"=>$message->id);
+        $resp["message_id"]=$message->id;
+        return $resp;
     }
 
     public function comment(Request $request){
