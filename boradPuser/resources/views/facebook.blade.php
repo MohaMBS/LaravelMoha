@@ -44,6 +44,12 @@
         .liked{
             background-color:cyan;
         }
+        .imgmsg {
+            margin-left: 0;
+        }
+        .container{
+            display: flex;
+        }
     </style>
 
 </head>
@@ -63,20 +69,21 @@
             @foreach ($old_messages as $message)
                 <div class="msg">
                     <div>
-                        <strong> 
-                        @if ($message->from == $user_id)
-                            You: 
-                        @else
-                            @foreach ($users as $user)
-                                @if ($message->from == $user->id)
-                                    {{ $user->name }}:
-                                @endif
-                            @endforeach
-                        @endif
-                        </strong> {{ $message->message }}
                         @if($message->imagePath != null)
-                            <img src="{{ asset('img/'.$message->imagePath) }}" alt="" width="150px" height="150px">
+                            <img src="{{ asset('img/'.$message->imagePath) }}" alt="" width="250px" height="150px"/>
+                            </br>
                         @endif
+                        <strong> 
+                            @if ($message->from == $user_id)
+                                You: 
+                            @else
+                                @foreach ($users as $user)
+                                    @if ($message->from == $user->id)
+                                        {{ $user->name }}:
+                                    @endif
+                                @endforeach
+                            @endif
+                        </strong> {{ $message->message }}
                     </div>
                     <span class="countLikes">{{ $message->likes_count }}</span>
                     <?php $likeStatus = false; ?>

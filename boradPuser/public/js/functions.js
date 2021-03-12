@@ -143,8 +143,17 @@ $(document).ready(()=>{
             processData: false,
             data: data,
             success: function(data) {
-                console.log("Done!");
-                $("#posts").prepend("<div class=\"msg\"><div><strong>You:</strong>"+message+"</div><span class=\"countLikes\">0</span><input type=\"button\" id=\""+data.message_id+"\" class=\"like \" value=\"LIKE\"> <input type=\"button\" id=\""+data.message_id+"\" class=\"comment\" value=\"Show 0 comments\"> <div class=\"comentArea\" hidden> <textarea name=\"comment\"  cols=\"150\" rows=\"10\"></textarea><br> <input type=\"button\" value=\"Comment\" id=\""+data.message_id+"\"> <h3>Comentarios:</h3> </div></div>");
+                if($("#toTalk").val() != "public"){
+                    $("#posts").prepend("<div class=\"msg\" user-from=\""+data.message_id+"\" ><strong>You:</strong>"+message+"</div>");
+                }else{
+                    console.log("Done!");
+                    if(data.img != undefined){
+                        $("#posts").prepend("<div class=\"msg\"><div class=\"container\"><div class=\"imgmsg\" style=\"width: 25%;\"> <img src=\"http://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/img/"+data.img+"\" alt=\"\" width=\"250px\" height=\"150px\"/> </div><div style=\"width: 75%;\"> <div style=\"margin-top: auto;\"><strong>You:</strong>"+message+"</div></div></div><span class=\"countLikes\">0</span><input type=\"button\" id=\""+data.message_id+"\" class=\"like \" value=\"LIKE\"> <input type=\"button\" id=\""+data.message_id+"\" class=\"comment\" value=\"Show 0 comments\"> <div class=\"comentArea\" hidden> <textarea name=\"comment\"  cols=\"150\" rows=\"10\"></textarea><br> <input type=\"button\" value=\"Comment\" id=\""+data.message_id+"\"> <h3>Comentarios:</h3> </div></div>");
+                    }else{
+                        $("#posts").prepend("<div class=\"msg\"><div><strong>You:</strong>"+message+"</div><span class=\"countLikes\">0</span><input type=\"button\" id=\""+data.message_id+"\" class=\"like \" value=\"LIKE\"> <input type=\"button\" id=\""+data.message_id+"\" class=\"comment\" value=\"Show 0 comments\"> <div class=\"comentArea\" hidden> <textarea name=\"comment\"  cols=\"150\" rows=\"10\"></textarea><br> <input type=\"button\" value=\"Comment\" id=\""+data.message_id+"\"> <h3>Comentarios:</h3> </div></div>");
+                    }
+                }
+                
                 $("#message").val("");
                 refresButtons()
             },
@@ -202,5 +211,3 @@ $(document).ready(()=>{
         })
     }
 });
-
-

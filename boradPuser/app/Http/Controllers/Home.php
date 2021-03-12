@@ -40,7 +40,10 @@ class Home extends Controller
         if($to == "public"){
             $oldMessages = Message::Where('to', $to)->orderByDesc('created_at')->get();
         }else{
-            $oldMessages = Message::where('from', Auth::user()->id)->Where('to', $to)->get();
+            $oldMessages = Message::where('from', Auth::user()->id)->Where('to', $to)->orWhere(function($query) use ($to) {
+                $query->where('from', $to)
+                        ->Where('to', Auth::user()->id);
+            })->get();
         }
         $data["old_messages"] = $oldMessages;
         $data["userName"] = User::All();
