@@ -68,7 +68,7 @@ $(document).ready(()=>{
     msgPublic();
     $("#toTalk").change(()=>{
         if($("#toTalk").val()!="public"){
-            Echo.leaveChannel('channel.public')
+            Echo.leave('channel.public')
             msgPrivate();
             postWall=$("#posts");
             postWall.empty();

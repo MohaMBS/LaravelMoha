@@ -71,12 +71,12 @@ class Home extends Controller
         $message->setAttribute('to', $request->input('to'));
         $message->setAttribute('message', $request->input('message'));
         $message->save();
-        /*if($request->input('to') == "public"){
+        if($request->input('to') == "public"){
             event(new PublicPost($message));
         }else{
             event(new NewMessageNotification($message));
-        }*/
-        event(new NewMessageNotification($message));
+        }
+        //event(new NewMessageNotification($message));
         $data["user_id"] = Auth::user()->id;
         $resp["message_id"]=$message->id;
         return $resp;
