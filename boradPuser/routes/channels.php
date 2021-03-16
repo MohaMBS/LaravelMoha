@@ -26,6 +26,10 @@ Broadcast::channel('channel.public', function ($user) {
     return Auth::check();
 });
 
+Broadcast::channel('channel.commentLike', function ($user) {
+    return Auth::check();
+});
+
 Broadcast::channel('presence.home', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });

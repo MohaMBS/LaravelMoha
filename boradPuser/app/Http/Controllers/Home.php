@@ -38,7 +38,8 @@ class Home extends Controller
     public function indexSelection($to)
     {   
         if($to == "public"){
-            $oldMessages = Message::Where('to', $to)->orderByDesc('created_at')->get();
+            $oldMessages = Message::with("comments")->with("likes")->withCount("likes")->withCount("comments")->
+            Where('to', $to)->orderByDesc('created_at')->get();
         }else{
             $oldMessages = Message::where('from', Auth::user()->id)->Where('to', $to)->orWhere(function($query) use ($to) {
                 $query->where('from', $to)

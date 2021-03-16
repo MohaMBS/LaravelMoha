@@ -56,13 +56,14 @@
 <body>
     <div style="float:left;" class="usersOnLine">
         <h3 style="color:green;">Users online:</h3>
-        <marquee direction="down" height="100" width="150" bgcolor="lightgrey" Scrollamount=1 >
+        <marquee direction="down" height="500" width="150" bgcolor="lightgrey" Scrollamount=1 >
 
         </marquee>
     </div>
     <center>
         <h1 style="color: red">Si no va es porque estoy trabajando en ello</h1>
         <h1>THIS IS FAKE BOOK WE DON'T LIKE REAL THINGS</h1>
+        <input type="text" value="{{ $nameOfUser[0]->name }}" id="nameOfUser" hidden>
         <h3 style="color:yellow;" id="nameOfAuthUser"> Welcome {{ $nameOfUser[0]->name }}!!</h3>
         <a style="color:red;display:none;" class="typing" > Esta escribiendo</a>
         <div id="posts" style="width:80%;">

@@ -27,3 +27,5 @@ Route::resource('coches', App\Http\Controllers\CocheController::class);
 Route::resource('cilientes', App\Http\Controllers\CilienteController::class);
 
 Route::resource('poblacions', App\Http\Controllers\PoblacionController::class);
+
+Route::resource('golosinas', App\Http\Controllers\GolosinasController::class);
