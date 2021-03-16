@@ -4,24 +4,6 @@ $(document).ready(()=>{
     var user_name = script_tag.getAttribute("user-name");
     let usersInfo=[];
 
-    Echo.private('channel.commentLike')
-        .listenForWhisper('likedComment', (e) => {
-            if(e.type =="like"){
-                if(e.liked){
-                    $("input.like#"+e.id).parent().children('span').text(parseInt($("input.like#"+e.id).parent().children('span').text())+1)
-                }else{
-                    $("input.like#"+e.id).parent().children('span').text(parseInt($("input.like#"+e.id).parent().children('span').text())-1)
-                }
-            }else{
-                console.log(e);
-                console.log($("input#"+e.id+".comment").parent().children(".comentArea").append("<p><strong>"+e.name+": </strong>"+e.comment+"</p>"))
-                valor = parseInt($("input#"+e.id+".comment").parent().children(".comment").val().split(" ")[1])+1
-                $("input#"+e.id+".comment").parent().children(".comment").val("Show "+valor+" comment/s")
-                $("input#"+e.id+".comment").parent().children(".comment").css("background-color", "yellow");
-                console.log()
-            }
-        })
-
     refresButtons()
     function msgPrivate(){
         Echo.private('channel.public')
@@ -45,6 +27,23 @@ $(document).ready(()=>{
             });
     }
     function msgPublic(){
+        Echo.private('channel.commentLike')
+        .listenForWhisper('likedComment', (e) => {
+            if(e.type =="like"){
+                if(e.liked){
+                    $("input.like#"+e.id).parent().children('span').text(parseInt($("input.like#"+e.id).parent().children('span').text())+1)
+                }else{
+                    $("input.like#"+e.id).parent().children('span').text(parseInt($("input.like#"+e.id).parent().children('span').text())-1)
+                }
+            }else{
+                console.log(e);
+                console.log($("input#"+e.id+".comment").parent().children(".comentArea").append("<p><strong>"+e.name+": </strong>"+e.comment+"</p>"))
+                valor = parseInt($("input#"+e.id+".comment").parent().children(".comment").val().split(" ")[1])+1
+                $("input#"+e.id+".comment").parent().children(".comment").val("Show "+valor+" comment/s")
+                $("input#"+e.id+".comment").parent().children(".comment").css("background-color", "yellow");
+                console.log()
+            }
+        })
         Echo.private('channel.public')
         .listenForWhisper('typing', (e) => {
             $('.typing').text(e.name+' is typing');
@@ -83,12 +82,23 @@ $(document).ready(()=>{
             });
         })
         .joining((user) => {
-            console.log(user.name);
+            let isNotThere = false;
+            $("#toTalk").each(function(){
+                if ($(this).val() == user.id){
+                    console.log($(this).val() +" = "+ user.id)
+                    isNotThere = true;
+                }
+            });
+            if(!isNotThere){
+                $("#toTalk").append("<option value='"+user.id+"'>"+user.name+"</option>")
+            }
             $(".usersOnLine").children("marquee").append("</br><span id='"+user.id+"'> ·"+user.name+"</span>")
+            
         })
         .leaving((user) => {
             $(".usersOnLine").children("marquee").children("#"+user.id).remove()
         });
+
     function isUserMatching (allUsers, userId) {
         let matched = false
         if(userId == user_id){
@@ -110,18 +120,20 @@ $(document).ready(()=>{
             msgPrivate();
             postWall=$("#posts");
             postWall.empty();
-            $.getJSON("https://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/getMsg/"+$("#toTalk").val(), (response)=>{
+            $.getJSON("https://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/getMsg/"+$("#toTalk").val(), function(response){
                 $.each( response, function() {
                     usersInfo = response.userName
-                    console.log(usersInfo)
+                    console.log("Geting data.")
                     response.old_messages.map((data)=>{
                         let user = isUserMatching(usersInfo, data.from)
                         if(user){
                             postWall.prepend("<div class=\"msg\" user-id=\""+data.from+"\" ><strong>"+user.name+":</strong>"+data.message+"</div>");
                         }
                     })
+                    return false;
                   });
-                  if(postWall.children().length == 0){
+
+                if(postWall.children().length == 0){
                     postWall.prepend("<h1 style=\"color:red;\">No tienes ningun mensaje con esta persona</h1>")
                 }
             })
