@@ -44,13 +44,35 @@ $(document).ready(()=>{
                 }else{
                     $("input.like#"+e.id).parent().children('span').text(parseInt($("input.like#"+e.id).parent().children('span').text())-1)
                 }
-            }else{
+            }else if ( e.type =="comment" ){
                 console.log(e);
                 console.log($("input#"+e.id+".comment").parent().children(".comentArea").append("<p><strong>"+e.name+": </strong>"+e.comment+"</p>"))
                 valor = parseInt($("input#"+e.id+".comment").parent().children(".comment").val().split(" ")[1])+1
                 $("input#"+e.id+".comment").parent().children(".comment").val("Show "+valor+" comment/s")
                 $("input#"+e.id+".comment").parent().children(".comment").css("background-color", "yellow");
                 console.log()
+            }else if (e.type =="noti"){
+                console.log(e)
+                console.log(user_id)
+                if(user_id == e.to){
+                    let result=true;
+                    if ($("#notibox").children().length > 0 && e.name != "Public channel."){
+                        $("#notibox").children().each(()=>{
+                            if ($(this).text() != e.name){
+                                result=false;
+                            }else{
+                                result=true;
+                            }
+                        })
+                        console.log(e.name)
+                        if (result){
+                            $("#notibox").append("<p> + Nueva notificacion de "+e.name+"</p>");
+                        }
+                    }else{
+                        $("#notibox").append("<p> + Nueva notificacion de "+e.name+"</p>");
+                    }
+                }
+                
             }
         })
         Echo.private('channel.public')
@@ -87,7 +109,7 @@ $(document).ready(()=>{
     Echo.join(`presence.home`)
         .here((users) => {
             users.forEach(element => {
-                $(".usersOnLine").children("marquee").append("<span id='"+element.id+"'> ·"+element.name+"</span>")
+                $(".usersOnLine").children("marquee").append("<br><span id='"+element.id+"'> ·"+element.name+"</span>")
             });
         })
         .joining((user) => {
@@ -167,6 +189,7 @@ $(document).ready(()=>{
 
     $("#send").click((e)=>{
         e.preventDefault();
+        let channel = Echo.private('channel.commentLike')
         var _token = $("input[name='_token']").val();
         var message = $("#message").val();
         if($("#toTalk").val() == "public"){
@@ -193,7 +216,6 @@ $(document).ready(()=>{
             success: function(data) {
                 if($("#toTalk").val() != "public"){
                     $("#posts").prepend("<div class=\"msg\" user-from=\""+data.message_id+"\" ><strong>You:</strong>"+message+"</div>");
-                    return false;
                 }else{
                     console.log("Done!");
                     if(data.img != undefined){
@@ -203,8 +225,14 @@ $(document).ready(()=>{
                     }
                     
                 }
-                refresButtons()
                 $("#message").val("");
+                refresButtons()
+                channel.whisper('likedComment', {
+                    to: to,
+                    name:$("#toTalk option:selected").text(),
+                    type: "noti"
+                })
+                
                 return false;
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -277,7 +305,9 @@ $(document).ready(()=>{
             );
         })
     }
-
+    $("#deleteNoti").click(()=>{
+        $("#notibox").empty()
+    })
     function sendCommentToUser(idPostToLike, thiss){
         let channel = Echo.private('channel.commentLike')
         channel.whisper('likedComment', {

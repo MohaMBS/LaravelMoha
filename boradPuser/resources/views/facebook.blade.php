@@ -34,8 +34,12 @@
             color:red;
             background-color:yellow;
         }
-        marquee{
+        #users{
             color: green;
+            border-style: solid;
+        }
+        #notibox{
+            color: orange;
             border-style: solid;
         }
         ul{
@@ -54,9 +58,17 @@
 
 </head>
 <body>
-    <div style="float:left;" class="usersOnLine">
+    <div style="float:left;" class="notificacion">
+        <h3  style="color:orange;">Notificaciones:</h3>
+        <marquee id="notibox" direction="down" height="250" width="125" bgcolor="lightgrey" Scrollamount=1 >
+
+        </marquee>
+        <br>
+        <input type="button" value="Borrar notificaciones." id="deleteNoti">
+    </div>
+    <div style="float:right;" class="usersOnLine">
         <h3 style="color:green;">Users online:</h3>
-        <marquee direction="down" height="500" width="150" bgcolor="lightgrey" Scrollamount=1 >
+        <marquee id="users" direction="down" height="250" width="125" bgcolor="lightgrey" Scrollamount=1 >
 
         </marquee>
     </div>
