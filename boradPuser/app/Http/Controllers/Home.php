@@ -54,6 +54,7 @@ class Home extends Controller
 
     public function send(Request $request){
         
+        $chanelTo=null;
         $message = new Message;
         $request->validate([
             'message' => 'required'
@@ -68,6 +69,11 @@ class Home extends Controller
             $message->setAttribute('imagePath', $nameimagen);
             $resp["img"]=$nameimagen;
         }
+        if(Auth::user()->id < $request->input('to')){
+            $chanelTo = Auth::user()->id.$request->input('to');
+        }else{
+            $chanelTo = $request->input('to').Auth::user()->id;
+        }
         $message->setAttribute('from', Auth::user()->id);
         $message->setAttribute('to', $request->input('to'));
         $message->setAttribute('message', $request->input('message'));
@@ -75,7 +81,11 @@ class Home extends Controller
         if($request->input('to') == "public"){
             event(new PublicPost($message));
         }else{
-            event(new NewMessageNotification($message));
+            if((int) $chanelTo == (int)$request->input('channel')){
+                event(new NewMessageNotification($message));    
+            }else{
+                return new Response('No tienes permisos.', 401);
+            }
         }
         //event(new NewMessageNotification($message));
         $data["user_id"] = Auth::user()->id;

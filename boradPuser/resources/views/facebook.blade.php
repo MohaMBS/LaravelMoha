@@ -126,7 +126,12 @@
             <select name="to" id="toTalk">
                 <option value="public">Public channel.</option>
                 @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @if($user->id < $user_id  )
+                        <?php $value =  $user->id. $user_id ?>
+                    @else
+                        <?php $value =  $user_id.$user->id ?>
+                    @endif
+                    <option value="{{ $value }}" id-User="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach
             </select>
             <input type="button" value="Send" id="send">

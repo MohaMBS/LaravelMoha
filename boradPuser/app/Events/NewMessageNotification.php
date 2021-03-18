@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Illuminate\Http\Request;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -23,7 +24,7 @@ class NewMessageNotification implements ShouldBroadcastNow
      *
      * @return void
      */
-    public function __construct(Message $message )
+    public function __construct(Message $message)
     {
         //
         $this->message = $message;
@@ -36,6 +37,14 @@ class NewMessageNotification implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('user.'.$this->message->to);
+        $id=0;
+        if($this->message->to < $this->message->from){
+            $id= $this->message->to.$this->message->from;
+        }else{
+            $id= $this->message->from.$this->message->to;
+        }
+        return new PrivateChannel('user.'.$id , $from =$this->message->to );
     }
+
+    
 }

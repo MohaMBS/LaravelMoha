@@ -15,15 +15,19 @@ $(document).ready(()=>{
             }, 5000)
         })
         //console.log("Cambiando a privado...")
-        Echo.private('user.'+user_id)
+        
+        Echo.private('user.'+$("#toTalk").val())
             .listen('NewMessageNotification', (e) => {
+                console.log(e)
                 let name = "";
-                    $("#toTalk option").each(function(){
-                    if ($(this).val() == e.message.from){        
-                            name = $(this).text();
+                $("#toTalk").children().each(function(){
+                        console.log($(this))
+                    if ($(this).attr("id-user") == e.message.from){        
+                        name = $(this).text();
+                        $("#posts").prepend("<div class=\"msg\"><strong>"+name+": </strong>"+e.message.message+"</div>");
+                        return false;
                     }
                     });
-                $("#posts").prepend("<div class=\"msg\"><strong>"+name+": </strong>"+e.message.message+"</div>");
             });
     }
     function msgPublic(){
@@ -56,7 +60,7 @@ $(document).ready(()=>{
             console.log(e)
             let name = "";
             $("#toTalk option").each(function(){
-               if ($(this).val() == e.message.from){            
+                if ($(this).attr("id-user") == e.message.from){            
                     name = $(this).text();
                     console.log(e.message.imagePath);
                     if($("#toTalk").val() != "public"){
@@ -96,7 +100,8 @@ $(document).ready(()=>{
             
         })
         .leaving((user) => {
-            $(".usersOnLine").children("marquee").children("#"+user.id).remove()
+            $(".usersOnLine").children("marquee").children("#"+user.id+"").remove()
+            $(".usersOnLine").children("marquee").children("br").last().remove()
         });
 
     function isUserMatching (allUsers, userId) {
@@ -120,7 +125,7 @@ $(document).ready(()=>{
             msgPrivate();
             postWall=$("#posts");
             postWall.empty();
-            $.getJSON("https://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/getMsg/"+$("#toTalk").val(), function(response){
+            $.getJSON("https://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/getMsg/"+$("#toTalk option:selected").attr("id-user"), function(response){
                 $.each( response, function() {
                     usersInfo = response.userName
                     console.log("Geting data.")
@@ -159,13 +164,20 @@ $(document).ready(()=>{
         e.preventDefault();
         var _token = $("input[name='_token']").val();
         var message = $("#message").val();
-        var to = $("#toTalk").val();
+        if($("#toTalk").val() == "public"){
+            var to = $("#toTalk").val();
+        }else{
+            var to = $("#toTalk option:selected").attr("id-user");
+        }
+        
         var from = $("#user_id").val();
         let data = new FormData();
         data.append("_token",_token)
         data.append("message",message)
         data.append("form",from)
         data.append("to",to)
+        console.log(to)
+        data.append("channel",$("#toTalk").val())
         data.append("imagen",$("#fileUpload").prop('files')[0])
         $.ajax({
             url: "https://dawjavi.insjoaquimmir.cat/mboughima/Clase/M07/UF2UF3/boradPuser/public/facebook",
@@ -176,6 +188,7 @@ $(document).ready(()=>{
             success: function(data) {
                 if($("#toTalk").val() != "public"){
                     $("#posts").prepend("<div class=\"msg\" user-from=\""+data.message_id+"\" ><strong>You:</strong>"+message+"</div>");
+                    return false;
                 }else{
                     console.log("Done!");
                     if(data.img != undefined){
@@ -183,16 +196,16 @@ $(document).ready(()=>{
                     }else{
                         $("#posts").prepend("<div class=\"msg\"><div><strong>You:</strong>"+message+"</div><span class=\"countLikes\">0</span><input type=\"button\" id=\""+data.message_id+"\" class=\"like \" value=\"LIKE\"> <input type=\"button\" id=\""+data.message_id+"\" class=\"comment\" value=\"Show 0 comments\"> <div class=\"comentArea\" hidden> <textarea name=\"comment\"  cols=\"150\" rows=\"10\"></textarea><br> <input type=\"button\" value=\"Comment\" id=\""+data.message_id+"\"> <h3>Comentarios:</h3> </div></div>");
                     }
+                    
                 }
                 refresButtons()
                 $("#message").val("");
-                
+                return false;
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 alert("Escriba el mensaje o el formato la imagen no es el correcot.");
             }
         })
-        return false;
     })  
 
     function refresButtons(){

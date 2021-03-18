@@ -17,9 +17,8 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('user.{toUserId}', function ($user, $toUserId) {
-    return $user->id == $toUserId;
-
+Broadcast::channel('user.{toUserId}', function ($user,$toUserId) {
+    return true;
 });
 
 Broadcast::channel('channel.public', function ($user) {
