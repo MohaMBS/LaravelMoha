@@ -15,13 +15,18 @@ $(document).ready(()=>{
             }, 5000)
         })
         //console.log("Cambiando a privado...")
-        
-        Echo.private('user.'+$("#toTalk").val())
+        let id
+        if(user_id < $("#toTalk").val()){
+            id = user_id+"."+$("#toTalk").val()
+        }else{
+            id = $("#toTalk").val()+"."+user_id
+        }
+        console.log(id)
+        Echo.private('user.'+id)
             .listen('NewMessageNotification', (e) => {
                 console.log(e)
                 let name = "";
                 $("#toTalk").children().each(function(){
-                        console.log($(this))
                     if ($(this).attr("id-user") == e.message.from){        
                         name = $(this).text();
                         $("#posts").prepend("<div class=\"msg\"><strong>"+name+": </strong>"+e.message.message+"</div>");

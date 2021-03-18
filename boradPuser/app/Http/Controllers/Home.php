@@ -54,7 +54,6 @@ class Home extends Controller
 
     public function send(Request $request){
         
-        $chanelTo=null;
         $message = new Message;
         $request->validate([
             'message' => 'required'
@@ -81,11 +80,7 @@ class Home extends Controller
         if($request->input('to') == "public"){
             event(new PublicPost($message));
         }else{
-            if((int) $chanelTo == (int)$request->input('channel')){
-                event(new NewMessageNotification($message));    
-            }else{
-                return new Response('No tienes permisos.', 401);
-            }
+            event(new NewMessageNotification($message));  
         }
         //event(new NewMessageNotification($message));
         $data["user_id"] = Auth::user()->id;
